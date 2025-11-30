@@ -443,7 +443,14 @@ set(tag_LIB_SRCS
 
 add_library(tag ${tag_LIB_SRCS} ${tag_HDRS})
 
-target_include_directories(tag INTERFACE
+target_include_directories(tag PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+foreach(dir ${tag_HDR_DIRS})
+  target_include_directories(tag PUBLIC $<BUILD_INTERFACE:${dir}>)
+endforeach()
+target_include_directories(tag PUBLIC
   $<INSTALL_INTERFACE:include>
   $<INSTALL_INTERFACE:include/taglib${TAGLIB_INSTALL_SUFFIX}>
 )
